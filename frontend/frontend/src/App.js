@@ -1,11 +1,15 @@
-import logo from './logo.svg';
+// I reused the logging portion from one of my projects, I'm not sure of a citation
+// The file picker was modified form this source: https://www.educative.io/edpresso/file-upload-in-react
+
+
+
 import './App.css';
 import { io } from "socket.io-client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-
+const URL = "http://localhost:5000/upload";
 // import React from 'react'
-const socket = io("http://localhost:5000/upload", { secure: false, reconnection: true, rejectUnauthorized: false });
+const socket = io(URL, { secure: false, reconnection: true, rejectUnauthorized: false });
 
 function App() {
   useEffect(() => {
@@ -31,9 +35,12 @@ function App() {
   // Handles file upload event and updates state
   function handleUpload(event) {
     setFile(event.target.files[0]);
+    console.log("File selected...")
+
 
     // Add code here to upload file to server
-    // ...
+    socket.emit("file", {"file" : event.target.files[0]})
+    // This is not working correctly
   }
   return (
     <div className="App">
@@ -41,10 +48,14 @@ function App() {
         {/*<input type="file" name="file" onChange={this.onChangeHandler}/>*/}
         <div id="upload-box">
       <input type="file" onChange={handleUpload} />
-      <p>Filename: {file.name}</p>
-      <p>File type: {file.type}</p>
-      <p>File size: {file.size} bytes</p>
-      {file && <ImageThumb image={file} />}
+          <p>Client Side:</p>
+          <p>Filename: {file.name}</p>
+          <p>File type: {file.type}</p>
+          <p>File size: {file.size} bytes</p>
+          {file && <ImageThumb image={file} />}
+
+          <p>Server Side:</p>
+          {/*{}*/}
     </div>
         {/*<img src={logo} className="App-logo" alt="logo" />*/}
         {/*<p>*/}
