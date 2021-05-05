@@ -26,3 +26,12 @@ cd frontend/frontend
 npm i
 npm start
 ``
+
+## Testing The API
+Using Postman, set form-data with key:file and value:eol.png as test. Post to /upload
+
+![postman](postman.png)
+
+View the emit in the Chrome Console:
+
+![chrome_console](chrome_test.png)
