@@ -17,7 +17,8 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 
-
+# TODO: CORS seems to not be working correctly and blocking requests
+# This is working with postman
 @app.route('/upload', methods=['post'])
 @cross_origin()
 def upload_file():
