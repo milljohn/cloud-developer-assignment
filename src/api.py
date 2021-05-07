@@ -23,19 +23,25 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 @cross_origin()
 def upload_file():
     try:
+        print(request.headers)
+        print(request.json)
+        print(request.method)
+        print(request.endpoint)
+        print(request.files)
+
         file = request.files['file']
         file_path = secure_filename(file.filename)
         file.save(file_path)
         file_size = os.path.getsize(file_path)
 
         response = {
-            'file_name': file_path,
-            'file_size': file_size
+            'filename': file_path,
+            'filesize': file_size
         }
 
         print(response)
 
-        emit(json.dumps(response), json=True, namespace='/upload', broadcast=True)
+        emit('upload', json.dumps(response), json=True, namespace='/upload', broadcast=True)
 
         return response
     except Exception as e:
